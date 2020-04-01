@@ -1,0 +1,8 @@
+---
+- name: "username"
+  prompt: "Enter the username"
+  private: no
+
+- name: "password"
+  prompt: "Enter the password"
+  private: yes

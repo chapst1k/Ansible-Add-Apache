@@ -1,0 +1,111 @@
+<VirtualHost *:80>
+  ServerName {{ domain }}
+  ServerAlias www.{{ domain }}
+  ServerAlias {{ username }}.us-east-2.midnetproof.com
+
+  ServerAdmin support@midnetmedia.com
+  DocumentRoot /home/{{ username }}/httpdocs
+
+  ErrorLog /home/{{ username }}/logs/error.log
+  CustomLog /home/{{ username }}/logs/access.log combined
+
+  <IfModule mod_fastcgi.c>
+    AddHandler php7-fcgi .php
+  </IfModule>
+
+  <Directory /home/{{ username }}/httpdocs>
+    DirectoryIndex index.php index.htm index.html
+    Options -Indexes
+    Require method GET POST OPTIONS
+
+    # RewriteEngine on
+    # Redirect all traffic to https
+    # RewriteCond %{SERVER_PORT} 80
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Include our .htaccess file.
+    IncludeOptional /home/{{ username }}/httpdocs/.htaccess
+
+    # Do not read any .htaccess in the platform
+    AllowOverride none
+
+  </Directory>
+
+  # Error handler for Drupal > 4.6.7
+  <Directory "/home/{{ username }}/httpdocs/sites/*/files">
+    # Turn off all options we don't need.
+    Options None
+    Options +FollowSymLinks
+
+    # Set the catch-all handler to prevent scripts from being executed.
+    SetHandler Drupal_Security_Do_Not_Remove_See_SA_2006_006
+
+    <Files *>
+      # Override the handler again if we're run later in the evaluation list.
+      SetHandler Drupal_Security_Do_Not_Remove_See_SA_2013_003
+    </Files>
+
+    # If we know how to do it safely, disable the PHP engine entirely.
+    <IfModule mod_php5.c>
+      php_flag engine off
+    </IfModule>
+
+    # Kill PHP Execution
+    <Files *.php>
+      deny from all
+    </Files>
+  </Directory>
+
+  # Error handler for Drupal > 4.6.7
+  <Directory "/home/{{ username }}/private">
+    # Turn off all options we don't need.
+    Options None
+    Options +FollowSymLinks
+
+    # Set the catch-all handler to prevent scripts from being executed.
+    SetHandler Drupal_Security_Do_Not_Remove_See_SA_2006_006
+
+    <Files *>
+      # Override the handler again if we're run later in the evaluation list.
+      SetHandler Drupal_Security_Do_Not_Remove_See_SA_2013_003
+    </Files>
+
+    # If we know how to do it safely, disable the PHP engine entirely.
+    <IfModule mod_php5.c>
+      php_flag engine off
+    </IfModule>
+
+    # Kill PHP Execution
+    <Files *.php>
+      deny from all
+    </Files>
+
+    Deny from all
+  </Directory>
+
+  # Error handler for Drupal > 4.6.7
+  <Directory "/home/{{ username }}/httpdocs/wp-content/uploads">
+    # Turn off all options we don't need.
+    Options None
+    Options +FollowSymLinks
+
+    # Set the catch-all handler to prevent scripts from being executed.
+    SetHandler Drupal_Security_Do_Not_Remove_See_SA_2006_006
+
+    <Files *>
+      # Override the handler again if we're run later in the evaluation list.
+      SetHandler Drupal_Security_Do_Not_Remove_See_SA_2013_003
+    </Files>
+
+    # If we know how to do it safely, disable the PHP engine entirely.
+    <IfModule mod_php5.c>
+      php_flag engine off
+    </IfModule>
+
+    # Kill PHP Execution
+    <Files *.php>
+      deny from all
+    </Files>
+  </Directory>
+
+</VirtualHost>

@@ -1,0 +1,9 @@
+[ohio]
+# Input DNS or IP Here
+
+[all:children]
+# Name Server Here
+
+[all:vars]
+ansible_ssh_user=
+ansible_ssh_private_key_file=
