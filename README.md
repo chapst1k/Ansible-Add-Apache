@@ -1,4 +1,4 @@
-This is an ansible playbook that will allow you to add domains to the AWS shared Ohio server.
+This is an ansible playbook that will allow you to add domains to a Apache Server
 
 ## Usage
 
@@ -67,6 +67,3 @@ By default, the SFTP access from the playbook will lock the SFTP connection to t
 ## Files directory export
 1. To save files for ddev pull execution run the following command:
 `sudo tar -zcvf files-"$(date '+%F')T$(date '+%H-%M-%S')_$(date '+%Z')".tar.gz -C /home/example/example.com/web/sites/default/files/ .`
-
-## DDEV Pull
-To make files / databases available for `ddev pull` see MySQL Export and Files directory export above. Then, you will download those files and upload them into the 'drud-midnetmedia-hosting' S3 bucket. In S3, you'll need to create a directory named for the project, typically the domain name. Inside of that directory, you'll need to create a 'staging' and a 'production' directory to which you'll upload the two export files from earlier.
