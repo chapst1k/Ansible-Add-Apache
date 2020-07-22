@@ -109,9 +109,9 @@
         mode: 0644
       notify: restart apache
 
-    - name: Symlink Drupal virtualhost to sites-enabled.
-      file:
-        src: "/etc/apache2/sites-available/{{ domain }}.conf"
-        dest: "/etc/apache2/sites-enabled/{{ domain }}.conf"
-        state: link
-      notify: restart apache
+ #   - name: Symlink Drupal virtualhost to sites-enabled.
+ #    file:
+ #    src: "/etc/apache2/sites-available/{{ domain }}.conf"
+ #    dest: "/etc/apache2/sites-enabled/{{ domain }}.conf"
+ #    state: link
+ #    notify: restart apache
