@@ -1,4 +1,4 @@
-[ohio]
+[server]
 # Input DNS or IP Here
 
 [all:children]
